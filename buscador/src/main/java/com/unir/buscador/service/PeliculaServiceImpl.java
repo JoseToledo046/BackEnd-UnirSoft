@@ -1,20 +1,32 @@
 package com.unir.buscador.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatchException;
+import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import java.util.List;
 
 import com.unir.buscador.model.pojo.Pelicula;
+import com.unir.buscador.model.pojo.PeliculaDto;
 import com.unir.buscador.model.request.CreatePeliculaRequest;
 import com.unir.buscador.repository.PeliculaRepository;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+
 @Service
+@Slf4j
 public class PeliculaServiceImpl implements PeliculaService {
 
     @Autowired
     private PeliculaRepository respository;
+    
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public List<Pelicula> getPeliculas(
@@ -80,13 +92,53 @@ public class PeliculaServiceImpl implements PeliculaService {
     
     @Override
     public Boolean removePelicula(Integer idFilm){
+        
         Pelicula pelicula = respository.getById(idFilm);
+        
         if(pelicula != null){
             respository.delete(pelicula);
             return Boolean.TRUE;
         }else {
             return Boolean.FALSE;
         }
+        
+    }
+    
+    @Override 
+    public Pelicula updatePeliculaP(Integer idFilm, String updRequist){
+        
+        Pelicula pelicula = respository.getById(idFilm);
+        
+        if(pelicula != null){
+            try{
+                JsonMergePatch jsonMergePatch = JsonMergePatch.fromJson(objectMapper.readTree(updRequist));
+                JsonNode target = jsonMergePatch.apply(objectMapper.readTree(objectMapper.writeValueAsString(pelicula)));
+                Pelicula patched = objectMapper.treeToValue(target, Pelicula.class);
+                respository.save(patched);
+                return patched;
+            } catch(JsonProcessingException | JsonPatchException e){
+                log.error("Error updating pelicula {}", idFilm, e);
+                return null;
+            }
+            
+        }else{
+            return null;
+        }
     }
 
+    @Override
+    public Pelicula updatePelicula(Integer idFilm, PeliculaDto updRequest){
+        
+        Pelicula pelicula = respository.getById(idFilm);
+        
+        if(pelicula != null){
+            pelicula.update(updRequest);
+            respository.save(pelicula);
+            return pelicula;
+        } else{
+            return null;
+        }
+        
+    }
+    
 }

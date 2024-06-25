@@ -62,7 +62,24 @@ public class Pelicula {
     @Column(name = "vote_count")
     private BigDecimal vote_count;
 
-    @Column(name = "overview" )
+    @Column(name = "overview")
     private String overview;
+
+    public void update(PeliculaDto peliculaDto) {
+        this.title = peliculaDto.getTitle();
+        this.backdrop_path = peliculaDto.getBackdrop_path();
+        this.poster_path = peliculaDto.getPoster_path();
+        this.budget = peliculaDto.getBudget();
+        this.original_language = peliculaDto.getOriginal_language();
+        this.original_title = peliculaDto.getOriginal_title();
+        this.popularity = peliculaDto.getPopularity();
+        this.release_date = peliculaDto.getRelease_date();
+        this.revenue = peliculaDto.getRevenue();
+        this.runtime = peliculaDto.getRuntime();
+        this.tagline = peliculaDto.getTagline();
+        this.vote_average = peliculaDto.getVote_average();
+        this.vote_count = peliculaDto.getVote_count();
+        this.overview = peliculaDto.getOverview();
+    }
 
 }
