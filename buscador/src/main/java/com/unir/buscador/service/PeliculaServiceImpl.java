@@ -17,14 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-
 @Service
 @Slf4j
 public class PeliculaServiceImpl implements PeliculaService {
 
     @Autowired
     private PeliculaRepository respository;
-    
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -35,13 +34,13 @@ public class PeliculaServiceImpl implements PeliculaService {
             String original_language,
             String release_date,
             Integer runtime,
-            String tagline
-    ) {
+            String tagline) {
 
         if (StringUtils.hasLength(title)
                 || StringUtils.hasLength(original_language)
                 || StringUtils.hasLength(release_date)
-                || StringUtils.hasLength(tagline)) {
+                || StringUtils.hasLength(tagline)
+                || id != null) {
 
             return respository.search(id, title, original_language, release_date, runtime, tagline);
 
@@ -89,56 +88,57 @@ public class PeliculaServiceImpl implements PeliculaService {
         }
 
     }
-    
+
     @Override
-    public Boolean removePelicula(Integer idFilm){
-        
+    public Boolean removePelicula(Integer idFilm) {
+
         Pelicula pelicula = respository.getById(idFilm);
-        
-        if(pelicula != null){
+
+        if (pelicula != null) {
             respository.delete(pelicula);
             return Boolean.TRUE;
-        }else {
+        } else {
             return Boolean.FALSE;
         }
-        
+
     }
-    
-    @Override 
-    public Pelicula updatePeliculaP(Integer idFilm, String updRequist){
-        
+
+    @Override
+    public Pelicula updatePeliculaP(Integer idFilm, String updRequist) {
+
         Pelicula pelicula = respository.getById(idFilm);
-        
-        if(pelicula != null){
-            try{
+
+        if (pelicula != null) {
+
+            try {
                 JsonMergePatch jsonMergePatch = JsonMergePatch.fromJson(objectMapper.readTree(updRequist));
                 JsonNode target = jsonMergePatch.apply(objectMapper.readTree(objectMapper.writeValueAsString(pelicula)));
                 Pelicula patched = objectMapper.treeToValue(target, Pelicula.class);
                 respository.save(patched);
                 return patched;
-            } catch(JsonProcessingException | JsonPatchException e){
+            } catch (JsonProcessingException | JsonPatchException e) {
                 log.error("Error updating pelicula {}", idFilm, e);
                 return null;
             }
-            
-        }else{
+
+        } else {
             return null;
         }
     }
 
     @Override
-    public Pelicula updatePelicula(Integer idFilm, PeliculaDto updRequest){
-        
+    public Pelicula updatePelicula(Integer idFilm, PeliculaDto updRequest) {
+
         Pelicula pelicula = respository.getById(idFilm);
-        
-        if(pelicula != null){
+
+        if (pelicula != null) {
             pelicula.update(updRequest);
             respository.save(pelicula);
             return pelicula;
-        } else{
+        } else {
             return null;
         }
-        
+
     }
-    
+
 }

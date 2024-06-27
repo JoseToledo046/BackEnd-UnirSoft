@@ -12,4 +12,5 @@ interface PeliculaJpaRepository extends JpaRepository<Pelicula, Integer>, JpaSpe
 
     @Query("SELECT MAX(p.id) +1  FROM Pelicula p")
     Integer findMaxID();
+    
 }

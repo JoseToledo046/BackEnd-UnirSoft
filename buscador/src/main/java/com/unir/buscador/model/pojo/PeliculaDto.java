@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @ToString
 public class PeliculaDto {
-    
+
     private String title;
     private String backdrop_path;
     private String poster_path;
@@ -25,5 +25,5 @@ public class PeliculaDto {
     private BigDecimal vote_average;
     private BigDecimal vote_count;
     private String overview;
-    
+
 }

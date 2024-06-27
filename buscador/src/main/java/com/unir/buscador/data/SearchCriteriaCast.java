@@ -7,8 +7,9 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import java.util.LinkedList;
 import java.util.List;
+import org.slf4j.Logger;
 
-public class SearchCriteria<Pelicula> implements Specification<Pelicula> {
+public class SearchCriteriaCast<Cast> implements Specification<Cast> {
 
     private final List<SearchStatement> list = new LinkedList<>();
 
@@ -17,8 +18,8 @@ public class SearchCriteria<Pelicula> implements Specification<Pelicula> {
     }
 
     @Override
-    public Predicate toPredicate(Root<Pelicula> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        
+    public Predicate toPredicate(Root<Cast> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+
         List<Predicate> predicates = new LinkedList<>();
         for (SearchStatement criteria : list) {
             if (criteria.getOperation().equals(SearchOperation.GREATER_THAN)) {
@@ -48,9 +49,10 @@ public class SearchCriteria<Pelicula> implements Specification<Pelicula> {
                         builder.lower(root.get(criteria.getKey())),
                         criteria.getValue().toString().toLowerCase() + "%"));
             }
+            
         }
-        
+
         return builder.and(predicates.toArray(new Predicate[0]));
-        
+
     }
 }

@@ -28,7 +28,7 @@ public class PeliculaController {
 
     private final PeliculaService peliculaService;
 
-    @GetMapping("/movie")
+    @GetMapping("/peliculas")
     public List<Pelicula> getPelicula(
             @RequestParam(required = false) Integer id,
             @RequestParam(required = false) String title,
@@ -49,7 +49,7 @@ public class PeliculaController {
 
     }
 
-    @GetMapping("/movie/{idFilm}")
+    @GetMapping("/peliculas/{idFilm}")
     public ResponseEntity<Pelicula> getPeliculaID(@PathVariable Integer idFilm) {
 
         Pelicula peliculaId = peliculaService.getPelicula(idFilm);
@@ -61,7 +61,7 @@ public class PeliculaController {
 
     }
 
-    @PostMapping("/movie")
+    @PostMapping("/peliculas")
     public ResponseEntity<Pelicula> addPelicula(@RequestBody CreatePeliculaRequest request) {
 
         Pelicula creaPelicula = peliculaService.createPelicula(request);
@@ -73,7 +73,7 @@ public class PeliculaController {
 
     }
 
-    @DeleteMapping("/movie/{idFilm}")
+    @DeleteMapping("/peliculas/{idFilm}")
     public ResponseEntity<Void> deletePelicula(@PathVariable Integer idFilm) {
 
         Boolean removed = peliculaService.removePelicula(idFilm);
@@ -86,7 +86,7 @@ public class PeliculaController {
 
     }
 
-    @PatchMapping("/movie/{idFilm}")
+    @PatchMapping("/peliculas/{idFilm}")
     public ResponseEntity<Pelicula> patchPelicula(@PathVariable Integer idFilm,
             @RequestBody String patchBody) {
 
@@ -99,16 +99,16 @@ public class PeliculaController {
 
     }
 
-    @PutMapping("/movie/{idFilm}")
+    @PutMapping("/peliculas/{idFilm}")
     public ResponseEntity<Pelicula> putPelicula(@PathVariable Integer idFilm,
             @RequestBody PeliculaDto request) {
-        
+
         Pelicula updated = peliculaService.updatePelicula(idFilm, request);
-        if(updated != null){
+        if (updated != null) {
             return ResponseEntity.ok(updated);
-        } else{
+        } else {
             return ResponseEntity.notFound().build();
         }
-            
+
     }
 }

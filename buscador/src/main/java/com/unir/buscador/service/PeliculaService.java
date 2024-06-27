@@ -19,9 +19,13 @@ public interface PeliculaService {
     );
 
     Pelicula getPelicula(Integer idFilm);
+
     Pelicula createPelicula(CreatePeliculaRequest request);
+
     Boolean removePelicula(Integer idFilm);
+
     Pelicula updatePeliculaP(Integer idFilm, String updRequist);
+
     Pelicula updatePelicula(Integer idFilm, PeliculaDto updRequest);
 
 }
