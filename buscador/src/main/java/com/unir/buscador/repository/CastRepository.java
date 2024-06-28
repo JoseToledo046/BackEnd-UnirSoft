@@ -61,9 +61,12 @@ public class CastRepository {
             spec.add(new SearchStatement("id_film", id_film, SearchOperation.EQUAL));
         }
 
-        log.info(spec.toString());
         return repository.findAll(spec);
 
+    }
+    
+    public Integer maxID() {
+        return repository.findMaxID();
     }
 
 }

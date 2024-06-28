@@ -4,6 +4,7 @@ import com.unir.buscador.model.pojo.Cast;
 import com.unir.buscador.model.pojo.CastDto;
 import com.unir.buscador.model.request.CreateCastRequest;
 import com.unir.buscador.service.CastService;
+
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +66,7 @@ public class CastController {
 
     }
 
-    @DeleteMapping("/peliculas/{cast_id}")
+    @DeleteMapping("/personajes/{cast_id}")
     public ResponseEntity<Void> deleteCast(@PathVariable Integer cast_id) {
 
         Boolean removed = castService.removeCast(cast_id);
@@ -78,7 +79,7 @@ public class CastController {
 
     }
 
-    @PatchMapping("/peliculas/{cast_id}")
+    @PatchMapping("/personajes/{cast_id}")
     public ResponseEntity<Cast> patchCast(@PathVariable Integer cast_id,
             @RequestBody String patchBody) {
 
@@ -91,7 +92,7 @@ public class CastController {
 
     }
 
-    @PutMapping("/peliculas/{cast_id}")
+    @PutMapping("/personajes/{cast_id}")
     public ResponseEntity<Cast> putCast(@PathVariable Integer cast_id,
             @RequestBody CastDto request) {
 

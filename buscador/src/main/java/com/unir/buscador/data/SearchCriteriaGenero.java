@@ -8,8 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SearchCriteriaCast<Cast> implements Specification<Cast> {
-
+public class SearchCriteriaGenero<Genero> implements Specification<Genero>{
+    
     private final List<SearchStatement> list = new LinkedList<>();
 
     public void add(SearchStatement criteria) {
@@ -17,7 +17,7 @@ public class SearchCriteriaCast<Cast> implements Specification<Cast> {
     }
 
     @Override
-    public Predicate toPredicate(Root<Cast> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public Predicate toPredicate(Root<Genero> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
         List<Predicate> predicates = new LinkedList<>();
         for (SearchStatement criteria : list) {
@@ -54,4 +54,5 @@ public class SearchCriteriaCast<Cast> implements Specification<Cast> {
         return builder.and(predicates.toArray(new Predicate[0]));
 
     }
+    
 }

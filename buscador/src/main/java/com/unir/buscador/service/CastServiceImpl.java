@@ -1,12 +1,12 @@
 package com.unir.buscador.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.unir.buscador.model.pojo.Cast;
 import com.unir.buscador.model.pojo.CastDto;
 import com.unir.buscador.model.request.CreateCastRequest;
 import com.unir.buscador.repository.CastRepository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -59,9 +59,11 @@ public class CastServiceImpl implements CastService {
         
         if (request != null) {
             
+            request.setId_film(repository.maxID());
+            
             Cast cast;
             cast = Cast.builder()
-                    /*.cast_id(request.getCast_id())*/
+                    .cast_id(request.getCast_id())
                     .id_film(request.getId_film())
                     .name(request.getName())
                     .popularity(request.getPopularity())

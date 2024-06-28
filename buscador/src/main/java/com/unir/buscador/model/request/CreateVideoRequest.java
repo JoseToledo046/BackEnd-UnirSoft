@@ -10,14 +10,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCastRequest {
+public class CreateVideoRequest {
     
-    private Integer cast_id;
+    private Integer id;
     private Integer id_film;
-    private String name;
-    private String original_name;
-    private BigDecimal popularity;
-    private String profile_path;
-    private String character_name;
+    private String id_video;
+    private String plataforma;
+    private String name_video;
     
 }
